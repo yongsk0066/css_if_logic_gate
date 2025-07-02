@@ -7,9 +7,14 @@
     <title>CSS Logic Gates</title>
   </head>
   <body>
+    <h1>CSS Logic Gates with if() Function</h1>
+    <p>Pure CSS logic gates implementation using the experimental CSS if() function (Chrome 137+)</p>
     <main>
       <div class="gate">
         <b>AND</b>
+        <pre>.and .out {
+  --value: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
+}</pre>
         <!-- symbol 버전 -->
         <div class="and symbol" style="--a: 1; --b: 1">
           <div class="bit a"></div>
@@ -47,6 +52,9 @@
 
       <div class="gate">
         <b>OR</b>
+        <pre>.or .out {
+  --value: if(style(--a: 1): 1; style(--b: 1): 1; else: 0);
+}</pre>
         <!-- symbol 버전 -->
         <div class="or symbol" style="--a: 1; --b: 1">
           <div class="bit a"></div>
@@ -83,6 +91,9 @@
 
       <div class="gate">
         <b>NOT</b>
+        <pre>.not .out {
+  --value: if(style(--a: 1): 0; else: 1);
+}</pre>
         <!-- symbol 버전 -->
         <div class="not symbol unary" style="--a: 1">
           <div class="bit a"></div>
@@ -104,6 +115,13 @@
 
       <div class="gate">
         <b>XOR</b>
+        <pre>.xor .out {
+  --value: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+}</pre>
         <!-- symbol 버전 -->
         <div class="xor symbol" style="--a: 1; --b: 0">
           <div class="bit a"></div>
