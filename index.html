@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="logic.css" />
+    <title>CSS Logic Gates</title>
+  </head>
+  <body>
+    <main>
+      <div class="gate">
+        <b>AND</b>
+        <!-- symbol 버전 -->
+        <div class="and symbol" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+
+        <!-- 기본 버전 -->
+        <div class="and" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="and" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="and" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="and" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>OR</b>
+        <!-- symbol 버전 -->
+        <div class="or symbol" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          <div class="bit out"></div>
+        </div>
+
+        <!-- 기본 버전 -->
+        <div class="or" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="or" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="or" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="or" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>NOT</b>
+        <!-- symbol 버전 -->
+        <div class="not symbol unary" style="--a: 1">
+          <div class="bit a"></div>
+          <div class="bit out"></div>
+        </div>
+
+        <!-- 기본 버전 -->
+        <div class="not" style="--a: 0">
+          <div class="bit a"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="not" style="--a: 1">
+          <div class="bit a"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>XOR</b>
+        <!-- symbol 버전 -->
+        <div class="xor symbol" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          <div class="bit out"></div>
+        </div>
+
+        <!-- 기본 버전 -->
+        <div class="xor" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="xor" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="xor" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+        <div class="xor" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out"></div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>(a AND b) OR c</b>
+        <div class="and" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="or" style="--b: 1">
+              <div class="bit a"></div>
+              <div class="bit b"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="and" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="or" style="--b: 0">
+              <div class="bit a"></div>
+              <div class="bit b"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="and" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="or" style="--b: 0">
+              <div class="bit a"></div>
+              <div class="bit b"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="and" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="or" style="--b: 0">
+              <div class="bit a"></div>
+              <div class="bit b"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>NAND (NOT AND)</b>
+        <!-- NAND = NOT(AND) -->
+        <div class="and" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="and" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="and" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="and" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>NOR (NOT OR)</b>
+        <!-- NOR = NOT(OR) -->
+        <div class="or" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="or" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="or" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="or" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          <div class="bit b"></div>
+          →
+          <div class="bit out">
+            <div class="not">
+              <div class="bit a"></div>
+              →
+              <div class="bit out"></div>
+            </div>
+          </div>
+        </div>
+    </main>
+  </body>
+</html>

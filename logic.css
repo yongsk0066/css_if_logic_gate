@@ -1,0 +1,87 @@
+/* @experimental CSS if() function - Chrome 137+ */
+/* stylelint-disable */
+
+/* 심볼 스타일 임포트 */
+@import 'symbols.css';
+:root {
+  /* 기본 단위 */
+  --unit: 24px;
+  --border-width: 2px;
+
+}
+
+body {
+  font-family: monospace;
+  padding: 20px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+
+/* 이진 값 표시용 공통 클래스 */
+.bit {
+  width: var(--unit);
+  height: var(--unit);
+  border: var(--border-width) solid black;
+  display: inline-flex;
+  box-sizing: border-box;
+  background: if(style(--value: 1): black; else: white);
+}
+
+/* 입력 블록들 */
+.a {
+  --value: var(--a, 0);
+}
+.b {
+  --value: var(--b, 0);
+}
+
+/* AND Gate */
+.and .out {
+  --value: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
+}
+
+/* OR Gate */
+.or .out {
+  --value: if(style(--a: 1): 1; style(--b: 1): 1; else: 0);
+}
+
+/* NOT Gate */
+.not .out {
+  --value: if(style(--a: 1): 0; else: 1);
+}
+
+/* XOR Gate */
+.xor .out {
+  --value: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+}
+
+
+
+.out:has(.bit) {
+  border: none;
+  display: inline-flex;
+  width: auto;
+  background-color: transparent;
+}
+
+
+.out:has(.bit) > .and, .or, .not, .xor {
+  --a: var(--value);
+}
+
