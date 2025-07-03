@@ -440,6 +440,137 @@ Dirac delta function using CSS math controls each segment:
           </div>
         </div>
       </div>
+
+      <div class="gate">
+        <b>Half Adder</b>
+        <pre>
+/* Half Adder: adds two bits */
+.half-adder .sum {
+  --value: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+}
+
+.half-adder .carry {
+  --value: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
+}</pre>
+        
+        <div class="half-adder" style="--a: 0; --b: 0">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+          <small>(sum, carry)</small>
+        </div>
+        
+        <div class="half-adder" style="--a: 0; --b: 1">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+        </div>
+        
+        <div class="half-adder" style="--a: 1; --b: 0">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+        </div>
+        
+        <div class="half-adder" style="--a: 1; --b: 1">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>Full Adder</b>
+        <pre>
+/* Full Adder: adds two bits + carry in */
+.full-adder .sum {
+  /* Sum = (A XOR B) XOR Cin */
+  --half-sum: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+  
+  --value: if(
+    style(--half-sum: 0): if(style(--cin: 1): 1; else: 0);
+    style(--half-sum: 1): if(style(--cin: 0): 1; else: 0);
+    else: 0
+  );
+}
+
+.full-adder .carry {
+  /* Carry = (A AND B) OR (Cin AND (A XOR B)) */
+  --carry1: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
+  --xor-ab: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+  --carry2: if(style(--cin: 0): 0; style(--xor-ab: 0): 0; else: 1);
+  --value: if(style(--carry1: 1): 1; style(--carry2: 1): 1; else: 0);
+}</pre>
+        
+        <div class="full-adder" style="--a: 0; --b: 0; --cin: 0">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          +
+          <div class="bit cin"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+          <small>(A + B + Cin = sum, carry)</small>
+        </div>
+        
+        <div class="full-adder" style="--a: 1; --b: 1; --cin: 0">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          +
+          <div class="bit cin"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+        </div>
+        
+        <div class="full-adder" style="--a: 1; --b: 1; --cin: 1">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          +
+          <div class="bit cin"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+        </div>
+        
+        <div class="full-adder" style="--a: 0; --b: 1; --cin: 1">
+          <div class="bit a"></div>
+          +
+          <div class="bit b"></div>
+          +
+          <div class="bit cin"></div>
+          =
+          <div class="bit sum"></div>
+          <div class="bit carry"></div>
+        </div>
+      </div>
     </main>
 
     <script>

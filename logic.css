@@ -67,6 +67,9 @@ main {
 .b {
   --value: var(--b, 0);
 }
+.cin {
+  --value: var(--cin, 0);
+}
 
 /* AND Gate */
 .and .out {
@@ -288,6 +291,69 @@ main {
 .segment.c,
 .segment.e {
   bottom: 10px;
+}
+
+/* Half Adder */
+.half-adder {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Sum = A XOR B */
+.half-adder .sum {
+  --value: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+}
+
+/* Carry = A AND B */
+.half-adder .carry {
+  --value: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
+}
+
+/* Full Adder */
+.full-adder {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Full adder using two half adders */
+.full-adder .sum {
+  /* Sum = (A XOR B) XOR Cin */
+  --half-sum: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+  
+  --value: if(
+    style(--half-sum: 0): if(style(--cin: 1): 1; else: 0);
+    style(--half-sum: 1): if(style(--cin: 0): 1; else: 0);
+    else: 0
+  );
+}
+
+/* Carry = (A AND B) OR (Cin AND (A XOR B)) */
+.full-adder .carry {
+  /* A AND B */
+  --carry1: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
+  
+  /* A XOR B */
+  --xor-ab: if(
+    style(--a: 0): if(style(--b: 1): 1; else: 0);
+    style(--a: 1): if(style(--b: 0): 1; else: 0);
+    else: 0
+  );
+  
+  /* Cin AND (A XOR B) */
+  --carry2: if(style(--cin: 0): 0; style(--xor-ab: 0): 0; else: 1);
+  
+  /* Final carry out */
+  --value: if(style(--carry1: 1): 1; style(--carry2: 1): 1; else: 0);
 }
 
 
