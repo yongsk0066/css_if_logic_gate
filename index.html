@@ -378,17 +378,62 @@
           </div>
         </div>
       </div>
+
+      <div class="gate">
+        <h3>7-Segment Display</h3>
+
+        <div class="four-digit-display" id="seven-segment-display">
+          <div class="digit">
+            <div class="segment a"></div>
+            <div class="segment b"></div>
+            <div class="segment c"></div>
+            <div class="segment d"></div>
+            <div class="segment e"></div>
+            <div class="segment f"></div>
+            <div class="segment g"></div>
+          </div>
+          <div class="digit">
+            <div class="segment a"></div>
+            <div class="segment b"></div>
+            <div class="segment c"></div>
+            <div class="segment d"></div>
+            <div class="segment e"></div>
+            <div class="segment f"></div>
+            <div class="segment g"></div>
+          </div>
+          <div class="digit">
+            <div class="segment a"></div>
+            <div class="segment b"></div>
+            <div class="segment c"></div>
+            <div class="segment d"></div>
+            <div class="segment e"></div>
+            <div class="segment f"></div>
+            <div class="segment g"></div>
+          </div>
+          <div class="digit">
+            <div class="segment a"></div>
+            <div class="segment b"></div>
+            <div class="segment c"></div>
+            <div class="segment d"></div>
+            <div class="segment e"></div>
+            <div class="segment f"></div>
+            <div class="segment g"></div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script>
       const slider = document.getElementById('dec-slider');
       const display = document.getElementById('dec-display');
       const binary = document.querySelector('#binary-converter .binary');
+      const sevenSegment = document.getElementById('seven-segment-display');
 
       slider.addEventListener('input', (e) => {
         const value = e.target.value;
         display.textContent = value;
         binary.style.setProperty('--dec', value);
+        sevenSegment.style.setProperty('--dec', value);
       });
     </script>
   </body>

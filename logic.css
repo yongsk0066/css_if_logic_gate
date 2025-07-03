@@ -140,4 +140,130 @@ main {
   --dec: var(--next-dec);
 }
 
+/* 7-Segment Display - 비트마스크 방식 */
+.seven-segment-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* 4자리 디스플레이 */
+.four-digit-display {
+  display: flex;
+  gap: 10px;
+  
+  /* 각 자리수 계산 */
+  /* 천의 자리 */
+  & > .digit:nth-child(1) {
+    --num: calc(mod(round(down, var(--dec, 0) / 1000, 1), 10));
+  }
+  
+  /* 백의 자리 */
+  & > .digit:nth-child(2) {
+    --num: calc(mod(round(down, var(--dec, 0) / 100, 1), 10));
+  }
+  
+  /* 십의 자리 */
+  & > .digit:nth-child(3) {
+    --num: calc(mod(round(down, var(--dec, 0) / 10, 1), 10));
+  }
+  
+  /* 일의 자리 */
+  & > .digit:nth-child(4) {
+    --num: calc(mod(var(--dec, 0), 10));
+  }
+}
+
+.digit {
+  position: relative;
+  width: 60px;
+  height: 100px;
+  
+  --is-0: calc(1 - min(abs(var(--num) - 0), 1));
+  --is-1: calc(1 - min(abs(var(--num) - 1), 1));
+  --is-2: calc(1 - min(abs(var(--num) - 2), 1));
+  --is-3: calc(1 - min(abs(var(--num) - 3), 1));
+  --is-4: calc(1 - min(abs(var(--num) - 4), 1));
+  --is-5: calc(1 - min(abs(var(--num) - 5), 1));
+  --is-6: calc(1 - min(abs(var(--num) - 6), 1));
+  --is-7: calc(1 - min(abs(var(--num) - 7), 1));
+  --is-8: calc(1 - min(abs(var(--num) - 8), 1));
+  --is-9: calc(1 - min(abs(var(--num) - 9), 1));
+  
+  /* 비트마스크 계산 */
+  --bitmask: calc(
+    var(--is-0) * 63 +
+    var(--is-1) * 6 +
+    var(--is-2) * 91 +
+    var(--is-3) * 79 +
+    var(--is-4) * 102 +
+    var(--is-5) * 109 +
+    var(--is-6) * 125 +
+    var(--is-7) * 7 +
+    var(--is-8) * 127 +
+    var(--is-9) * 111
+  );
+  
+  /* 비트 추출을 위한 계산 */
+  & > .segment.a { --on: calc(mod(var(--bitmask), 2)); }
+  & > .segment.b { --on: calc(mod(round(down, var(--bitmask) / 2, 1), 2)); }
+  & > .segment.c { --on: calc(mod(round(down, var(--bitmask) / 4, 1), 2)); }
+  & > .segment.d { --on: calc(mod(round(down, var(--bitmask) / 8, 1), 2)); }
+  & > .segment.e { --on: calc(mod(round(down, var(--bitmask) / 16, 1), 2)); }
+  & > .segment.f { --on: calc(mod(round(down, var(--bitmask) / 32, 1), 2)); }
+  & > .segment.g { --on: calc(mod(round(down, var(--bitmask) / 64, 1), 2)); }
+}
+
+/* 세그먼트 공통 스타일 */
+.segment {
+  position: absolute;
+  background: rgb(
+    calc(var(--on) * 0),
+    calc(var(--on) * 0),
+    calc(var(--on) * 0)
+  );
+  opacity: calc(0.1 + var(--on) * 0.9);
+}
+
+/* 가로 세그먼트 (a, d, g) */
+.segment.a,
+.segment.d,
+.segment.g {
+  width: 40px;
+  height: 8px;
+  left: 10px;
+}
+
+.segment.a { top: 0; }
+.segment.g { top: 46px; }
+.segment.d { bottom: 0; }
+
+/* 세로 세그먼트 (b, c, e, f) */
+.segment.b,
+.segment.c,
+.segment.e,
+.segment.f {
+  width: 8px;
+  height: 40px;
+}
+
+.segment.b,
+.segment.c {
+  right: 12px;
+}
+
+.segment.e,
+.segment.f {
+  left: 12px;
+}
+
+.segment.b,
+.segment.f {
+  top: 4px;
+}
+
+.segment.c,
+.segment.e {
+  bottom: 4px;
+}
+
 
