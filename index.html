@@ -4,17 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="logic.css" />
+    <link rel="stylesheet" href="binary-converter.css" />
     <title>CSS Logic Gates</title>
   </head>
   <body>
     <h1>CSS Logic Gates with if() Function</h1>
-    <p>Pure CSS logic gates implementation using the experimental CSS if() function (Chrome 137+)</p>
+    <p>
+      Pure CSS logic gates implementation using the experimental CSS if() function (Chrome 137+)
+    </p>
     <main>
       <div class="gate">
         <b>AND</b>
-        <pre>.and .out {
+        <pre>
+.and .out {
   --value: if(style(--a: 0): 0; style(--b: 0): 0; else: 1);
-}</pre>
+}</pre
+        >
         <!-- symbol 버전 -->
         <div class="and symbol" style="--a: 1; --b: 1">
           <div class="bit a"></div>
@@ -52,9 +57,11 @@
 
       <div class="gate">
         <b>OR</b>
-        <pre>.or .out {
+        <pre>
+.or .out {
   --value: if(style(--a: 1): 1; style(--b: 1): 1; else: 0);
-}</pre>
+}</pre
+        >
         <!-- symbol 버전 -->
         <div class="or symbol" style="--a: 1; --b: 1">
           <div class="bit a"></div>
@@ -91,9 +98,11 @@
 
       <div class="gate">
         <b>NOT</b>
-        <pre>.not .out {
+        <pre>
+.not .out {
   --value: if(style(--a: 1): 0; else: 1);
-}</pre>
+}</pre
+        >
         <!-- symbol 버전 -->
         <div class="not symbol unary" style="--a: 1">
           <div class="bit a"></div>
@@ -115,13 +124,15 @@
 
       <div class="gate">
         <b>XOR</b>
-        <pre>.xor .out {
+        <pre>
+.xor .out {
   --value: if(
     style(--a: 0): if(style(--b: 1): 1; else: 0);
     style(--a: 1): if(style(--b: 0): 1; else: 0);
     else: 0
   );
-}</pre>
+}</pre
+        >
         <!-- symbol 버전 -->
         <div class="xor symbol" style="--a: 1; --b: 0">
           <div class="bit a"></div>
@@ -316,6 +327,69 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="gate">
+        <h3>Binary Converter</h3>
+
+        <div class="slider-container">
+          <label for="dec-slider">Decimal Value: <span id="dec-display">0</span></label>
+          <input type="range" id="dec-slider" min="0" max="1023" value="0" />
+        </div>
+
+        <div class="binary-output" id="binary-converter">
+          <div class="binary" style="--dec: 0">
+            <div class="out">
+              <div class="binary">
+                <div class="out">
+                  <div class="binary">
+                    <div class="out">
+                      <div class="binary">
+                        <div class="out">
+                          <div class="binary">
+                            <div class="out">
+                              <div class="binary">
+                                <div class="out">
+                                  <div class="binary">
+                                    <div class="out">
+                                      <div class="binary">
+                                        <div class="out">
+                                          <div class="binary">
+                                            <div class="out">
+                                              <div class="binary">
+                                                <div class="out"></div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
+
+    <script>
+      const slider = document.getElementById('dec-slider');
+      const display = document.getElementById('dec-display');
+      const binary = document.querySelector('#binary-converter .binary');
+
+      slider.addEventListener('input', (e) => {
+        const value = e.target.value;
+        display.textContent = value;
+        binary.style.setProperty('--dec', value);
+      });
+    </script>
   </body>
 </html>

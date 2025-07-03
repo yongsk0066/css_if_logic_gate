@@ -106,3 +106,38 @@ main {
   --a: var(--value);
 }
 
+
+
+.binary > .out {
+  /* 현재 비트 값 계산 */
+  --value: calc(mod(var(--dec, 0), 2));
+  
+  /* 다음 자릿수로 전달할 값 */
+  --next-dec: calc(round(down, var(--dec, 0) / 2, 1));
+  
+
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 5px;
+  
+  &::before {
+    content: "";
+    display: inline-block;
+    width: var(--unit);
+    height: var(--unit);
+    border: var(--border-width) solid black;
+
+    background: rgb(
+      calc((1 - var(--value)) * 255),
+      calc((1 - var(--value)) * 255),
+      calc((1 - var(--value)) * 255)
+    );
+  }
+}
+
+
+.out > .binary {
+  --dec: var(--next-dec);
+}
+
+
