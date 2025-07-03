@@ -140,7 +140,10 @@ main {
   --dec: var(--next-dec);
 }
 
-/* 7-Segment Display - 비트마스크 방식 */
+
+
+
+/* 7세그먼트 디스플레이 */
 .seven-segment-container {
   display: flex;
   gap: 20px;
@@ -176,41 +179,67 @@ main {
 .digit {
   position: relative;
   width: 60px;
-  height: 100px;
+  height: 110px;
   
-  --is-0: calc(1 - min(abs(var(--num) - 0), 1));
-  --is-1: calc(1 - min(abs(var(--num) - 1), 1));
-  --is-2: calc(1 - min(abs(var(--num) - 2), 1));
-  --is-3: calc(1 - min(abs(var(--num) - 3), 1));
-  --is-4: calc(1 - min(abs(var(--num) - 4), 1));
-  --is-5: calc(1 - min(abs(var(--num) - 5), 1));
-  --is-6: calc(1 - min(abs(var(--num) - 6), 1));
-  --is-7: calc(1 - min(abs(var(--num) - 7), 1));
-  --is-8: calc(1 - min(abs(var(--num) - 8), 1));
-  --is-9: calc(1 - min(abs(var(--num) - 9), 1));
+  /* 세그먼트 a: 1,4에서만 꺼짐 */
+  & > .segment.a {
+    --off-at-1: calc(1 - abs(sign(var(--num) - 1)));
+    --off-at-4: calc(1 - abs(sign(var(--num) - 4)));
+    --on: calc(1 - max(var(--off-at-1), var(--off-at-4)));
+  }
   
-  /* 비트마스크 계산 */
-  --bitmask: calc(
-    var(--is-0) * 63 +
-    var(--is-1) * 6 +
-    var(--is-2) * 91 +
-    var(--is-3) * 79 +
-    var(--is-4) * 102 +
-    var(--is-5) * 109 +
-    var(--is-6) * 125 +
-    var(--is-7) * 7 +
-    var(--is-8) * 127 +
-    var(--is-9) * 111
-  );
+  /* 세그먼트 b: 5,6에서만 꺼짐 */
+  & > .segment.b {
+    --off-at-5: calc(1 - abs(sign(var(--num) - 5)));
+    --off-at-6: calc(1 - abs(sign(var(--num) - 6)));
+    --on: calc(1 - max(var(--off-at-5), var(--off-at-6)));
+  }
   
-  /* 비트 추출을 위한 계산 */
-  & > .segment.a { --on: calc(mod(var(--bitmask), 2)); }
-  & > .segment.b { --on: calc(mod(round(down, var(--bitmask) / 2, 1), 2)); }
-  & > .segment.c { --on: calc(mod(round(down, var(--bitmask) / 4, 1), 2)); }
-  & > .segment.d { --on: calc(mod(round(down, var(--bitmask) / 8, 1), 2)); }
-  & > .segment.e { --on: calc(mod(round(down, var(--bitmask) / 16, 1), 2)); }
-  & > .segment.f { --on: calc(mod(round(down, var(--bitmask) / 32, 1), 2)); }
-  & > .segment.g { --on: calc(mod(round(down, var(--bitmask) / 64, 1), 2)); }
+  /* 세그먼트 c: 2에서만 꺼짐 */
+  & > .segment.c {
+    --off-at-2: calc(1 - abs(sign(var(--num) - 2)));
+    --on: calc(1 - var(--off-at-2));
+  }
+  
+  /* 세그먼트 d: 1,4,7에서만 꺼짐 */
+  & > .segment.d {
+    --off-at-1: calc(1 - abs(sign(var(--num) - 1)));
+    --off-at-4: calc(1 - abs(sign(var(--num) - 4)));
+    --off-at-7: calc(1 - abs(sign(var(--num) - 7)));
+    --on: calc(1 - max(max(var(--off-at-1), var(--off-at-4)), var(--off-at-7)));
+  }
+  
+  /* 세그먼트 e: 1,3,4,5,7,9에서 꺼짐 */
+  & > .segment.e {
+    --off-at-1: calc(1 - abs(sign(var(--num) - 1)));
+    --off-at-3: calc(1 - abs(sign(var(--num) - 3)));
+    --off-at-4: calc(1 - abs(sign(var(--num) - 4)));
+    --off-at-5: calc(1 - abs(sign(var(--num) - 5)));
+    --off-at-7: calc(1 - abs(sign(var(--num) - 7)));
+    --off-at-9: calc(1 - abs(sign(var(--num) - 9)));
+    /* 복잡한 max 중첩 */
+    --max-1-3: max(var(--off-at-1), var(--off-at-3));
+    --max-4-5: max(var(--off-at-4), var(--off-at-5));
+    --max-7-9: max(var(--off-at-7), var(--off-at-9));
+    --on: calc(1 - max(max(var(--max-1-3), var(--max-4-5)), var(--max-7-9)));
+  }
+  
+  /* 세그먼트 f: 1,2,3,7에서 꺼짐 */
+  & > .segment.f {
+    --off-at-1: calc(1 - abs(sign(var(--num) - 1)));
+    --off-at-2: calc(1 - abs(sign(var(--num) - 2)));
+    --off-at-3: calc(1 - abs(sign(var(--num) - 3)));
+    --off-at-7: calc(1 - abs(sign(var(--num) - 7)));
+    --on: calc(1 - max(max(var(--off-at-1), var(--off-at-2)), max(var(--off-at-3), var(--off-at-7))));
+  }
+  
+  /* 세그먼트 g: 0,1,7에서 꺼짐 */
+  & > .segment.g {
+    --off-at-0: calc(1 - abs(sign(var(--num) - 0)));
+    --off-at-1: calc(1 - abs(sign(var(--num) - 1)));
+    --off-at-7: calc(1 - abs(sign(var(--num) - 7)));
+    --on: calc(1 - max(max(var(--off-at-0), var(--off-at-1)), var(--off-at-7)));
+  }
 }
 
 /* 세그먼트 공통 스타일 */
@@ -229,12 +258,12 @@ main {
 .segment.d,
 .segment.g {
   width: 40px;
-  height: 8px;
+  height: 10px;
   left: 10px;
 }
 
 .segment.a { top: 0; }
-.segment.g { top: 46px; }
+.segment.g { top: 50px; }
 .segment.d { bottom: 0; }
 
 /* 세로 세그먼트 (b, c, e, f) */
@@ -242,28 +271,23 @@ main {
 .segment.c,
 .segment.e,
 .segment.f {
-  width: 8px;
+  width: 10px;
   height: 40px;
 }
 
 .segment.b,
 .segment.c {
-  right: 12px;
-}
-
-.segment.e,
-.segment.f {
-  left: 12px;
+  right: 0px;
 }
 
 .segment.b,
 .segment.f {
-  top: 4px;
+  top: 10px;
 }
 
 .segment.c,
 .segment.e {
-  bottom: 4px;
+  bottom: 10px;
 }
 
 

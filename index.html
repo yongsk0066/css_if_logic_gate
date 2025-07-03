@@ -330,14 +330,30 @@
       </div>
       <div class="gate">
         <h3>Binary Converter</h3>
+        <pre>
+.binary > .out {
+  /* Calculate the current bit value */
+  --value: calc(mod(var(--dec, 0), 2));
+  
+  /* Value to pass to the next digit */
+  --next-dec: calc(round(down, var(--dec, 0) / 2, 1));
+  &::before {
+
+  background: rgb(
+    calc((1 - var(--value)) * 255),
+    calc((1 - var(--value)) * 255),
+    calc((1 - var(--value)) * 255)
+  );
+}</pre
+        >
 
         <div class="slider-container">
           <label for="dec-slider">Decimal Value: <span id="dec-display">0</span></label>
           <input type="range" id="dec-slider" min="0" max="1023" value="0" />
         </div>
 
-        <div class="binary-output" id="binary-converter">
-          <div class="binary" style="--dec: 0">
+        <div class="binary-output">
+          <div class="binary sync-decimal" style="--dec: 0">
             <div class="out">
               <div class="binary">
                 <div class="out">
@@ -381,8 +397,11 @@
 
       <div class="gate">
         <h3>7-Segment Display</h3>
-
-        <div class="four-digit-display" id="seven-segment-display">
+        <pre>
+Dirac delta function using CSS math controls each segment: 
+</pre
+        >
+        <div class="four-digit-display sync-decimal">
           <div class="digit">
             <div class="segment a"></div>
             <div class="segment b"></div>
@@ -426,14 +445,14 @@
     <script>
       const slider = document.getElementById('dec-slider');
       const display = document.getElementById('dec-display');
-      const binary = document.querySelector('#binary-converter .binary');
-      const sevenSegment = document.getElementById('seven-segment-display');
+      const syncTargets = document.querySelectorAll('.sync-decimal');
 
       slider.addEventListener('input', (e) => {
         const value = e.target.value;
         display.textContent = value;
-        binary.style.setProperty('--dec', value);
-        sevenSegment.style.setProperty('--dec', value);
+        syncTargets.forEach(target => {
+          target.style.setProperty('--dec', value);
+        });
       });
     </script>
   </body>
