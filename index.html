@@ -571,6 +571,135 @@ Dirac delta function using CSS math controls each segment:
           <div class="bit carry"></div>
         </div>
       </div>
+
+      <div class="gate">
+        <b>2:1 Multiplexer (MUX)</b>
+        <pre>
+/* Select one of two inputs based on select line */
+.mux-2to1 .out {
+  --value: if(
+    style(--s: 0): var(--i0, 0);  /* S=0: select I0 */
+    else: var(--i1, 0)            /* S=1: select I1 */
+  );
+}</pre>
+
+        <!-- S=0: select I0 -->
+        <div class="mux-labels">
+          <small>I0</small>
+          <small>I1</small>
+          <small>S</small>
+          <small></small>
+          <small>Out</small>
+        </div>
+        <div class="mux-2to1" style="--s: 0; --i0: 0; --i1: 1">
+          <div class="bit input i0"></div>
+          <div class="bit input i1"></div>
+          <div class="bit select"></div>
+          →
+          <div class="bit out"></div>
+          <small>I0=0, I1=1, S=0 → Out=0</small>
+        </div>
+
+        <!-- S=1: select I1 -->
+        <div class="mux-2to1" style="--s: 1; --i0: 0; --i1: 1">
+          <div class="bit input i0"></div>
+          <div class="bit input i1"></div>
+          <div class="bit select"></div>
+          →
+          <div class="bit out"></div>
+          <small>I0=0, I1=1, S=1 → Out=1</small>
+        </div>
+      </div>
+
+      <div class="gate">
+        <b>4:1 Multiplexer</b>
+        <pre>
+/* 4:1 MUX implemented with basic logic gates */
+/* Out = (I0·!S1·!S0) + (I1·!S1·S0) + (I2·S1·!S0) + (I3·S1·S0) */
+
+.mux-4to1 .out {
+  /* Step 1: NOT gates for select lines */
+  --not-s1: if(style(--s1: 1): 0; else: 1);
+  --not-s0: if(style(--s0: 1): 0; else: 1);
+  
+  /* Step 2: AND gates for selection conditions */
+  --term0: if(style(--i0: 0): 0; style(--not-s1: 0): 0; style(--not-s0: 0): 0; else: 1);
+  --term1: if(style(--i1: 0): 0; style(--not-s1: 0): 0; style(--s0: 0): 0; else: 1);
+  --term2: if(style(--i2: 0): 0; style(--s1: 0): 0; style(--not-s0: 0): 0; else: 1);
+  --term3: if(style(--i3: 0): 0; style(--s1: 0): 0; style(--s0: 0): 0; else: 1);
+  
+  /* Step 3: OR all terms together */
+  --value: if(
+    style(--term0: 1): 1;
+    style(--term1: 1): 1;
+    style(--term2: 1): 1;
+    style(--term3: 1): 1;
+    else: 0
+  );
+}</pre>
+
+        <!-- S1S0=00: select I0 -->
+        <div class="mux-labels">
+          <small>I0</small>
+          <small>I1</small>
+          <small>I2</small>
+          <small>I3</small>
+          <small>S1</small>
+          <small>S0</small>
+          <small></small>
+          <small>Out</small>
+        </div>
+        <div class="mux-4to1" style="--s1: 0; --s0: 0; --i0: 1; --i1: 0; --i2: 0; --i3: 0">
+          <div class="bit input i0"></div>
+          <div class="bit input i1"></div>
+          <div class="bit input i2"></div>
+          <div class="bit input i3"></div>
+          <div class="bit select s1"></div>
+          <div class="bit select s0"></div>
+          →
+          <div class="bit out"></div>
+          <small>S1S0=00 → I0</small>
+        </div>
+
+        <!-- S1S0=01: select I1 -->
+        <div class="mux-4to1" style="--s1: 0; --s0: 1; --i0: 0; --i1: 1; --i2: 0; --i3: 0">
+          <div class="bit input i0"></div>
+          <div class="bit input i1"></div>
+          <div class="bit input i2"></div>
+          <div class="bit input i3"></div>
+          <div class="bit select s1"></div>
+          <div class="bit select s0"></div>
+          →
+          <div class="bit out"></div>
+          <small>S1S0=01 → I1</small>
+        </div>
+
+        <!-- S1S0=10: select I2 -->
+        <div class="mux-4to1" style="--s1: 1; --s0: 0; --i0: 0; --i1: 0; --i2: 1; --i3: 0">
+          <div class="bit input i0"></div>
+          <div class="bit input i1"></div>
+          <div class="bit input i2"></div>
+          <div class="bit input i3"></div>
+          <div class="bit select s1"></div>
+          <div class="bit select s0"></div>
+          →
+          <div class="bit out"></div>
+          <small>S1S0=10 → I2</small>
+        </div>
+
+        <!-- S1S0=11: select I3 -->
+        <div class="mux-4to1" style="--s1: 1; --s0: 1; --i0: 0; --i1: 0; --i2: 0; --i3: 1">
+          <div class="bit input i0"></div>
+          <div class="bit input i1"></div>
+          <div class="bit input i2"></div>
+          <div class="bit input i3"></div>
+          <div class="bit select s1"></div>
+          <div class="bit select s0"></div>
+          →
+          <div class="bit out"></div>
+          <small>S1S0=11 → I3</small>
+        </div>
+      </div>
     </main>
 
     <script>

@@ -356,4 +356,101 @@ main {
   --value: if(style(--carry1: 1): 1; style(--carry2: 1): 1; else: 0);
 }
 
+/* 2:1 Multiplexer */
+.mux-2to1 {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* MUX 라벨 */
+.mux-labels {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.mux-labels > small {
+  width: var(--unit);
+  text-align: center;
+}
+
+/* Output = S ? I1 : I0 */
+.mux-2to1 .out {
+  --value: if(
+    style(--s: 1): var(--i1, 0);
+    else: var(--i0, 0)
+  );
+}
+
+/* 4:1 Multiplexer */
+.mux-4to1 {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* 4:1 MUX using logic gates approach */
+.mux-4to1 .out {
+  /* NOT gates for select lines */
+  --not-s1: if(style(--s1: 1): 0; else: 1);
+  --not-s0: if(style(--s0: 1): 0; else: 1);
+  
+  /* AND gates for each selection */
+  /* I0 when S1=0 AND S0=0 */
+  --and-00-s1: if(style(--not-s1: 0): 0; else: 1);
+  --and-00-s0: if(style(--not-s0: 0): 0; else: 1);
+  --and-00: if(style(--and-00-s1: 0): 0; style(--and-00-s0: 0): 0; else: 1);
+  --term0: if(style(--and-00: 0): 0; style(--i0: 0): 0; else: 1);
+  
+  /* I1 when S1=0 AND S0=1 */
+  --and-01: if(style(--not-s1: 0): 0; style(--s0: 0): 0; else: 1);
+  --term1: if(style(--and-01: 0): 0; style(--i1: 0): 0; else: 1);
+  
+  /* I2 when S1=1 AND S0=0 */
+  --and-10: if(style(--s1: 0): 0; style(--not-s0: 0): 0; else: 1);
+  --term2: if(style(--and-10: 0): 0; style(--i2: 0): 0; else: 1);
+  
+  /* I3 when S1=1 AND S0=1 */
+  --and-11: if(style(--s1: 0): 0; style(--s0: 0): 0; else: 1);
+  --term3: if(style(--and-11: 0): 0; style(--i3: 0): 0; else: 1);
+  
+  /* OR all terms */
+  --value: if(
+    style(--term0: 1): 1;
+    style(--term1: 1): 1;
+    style(--term2: 1): 1;
+    style(--term3: 1): 1;
+    else: 0
+  );
+}
+
+/* Select line display */
+.select {
+  --value: var(--s, 0);
+  font-size: 12px;
+  border-color: #0066cc;
+  border-width: 3px;
+}
+
+.select.s0 {
+  --value: var(--s0, 0);
+}
+
+.select.s1 {
+  --value: var(--s1, 0);
+}
+
+/* Input line display */
+.input {
+  font-size: 12px;
+}
+
+.input.i0 { --value: var(--i0, 0); }
+.input.i1 { --value: var(--i1, 0); }
+.input.i2 { --value: var(--i2, 0); }
+.input.i3 { --value: var(--i3, 0); }
+
 
